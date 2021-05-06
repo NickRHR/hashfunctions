@@ -1,44 +1,7 @@
 import math
 import time
 
-# <========================== interface support
-class bcolors:
-    HEADER = '\033[95m'
-    OKBLUE = '\033[94m'
-    OKCYAN = '\033[96m'
-    OKGREEN = '\033[92m'
-    WARNING = '\033[93m'
-    FAIL = '\033[91m'
-    ENDC = '\033[0m'
-    BOLD = '\033[1m'
-    UNDERLINE = '\033[4m'
-
-def print_array_by_block(array, bsize, hl_start=None, hl_end=None, hl_col=None):
-    print('[ '+bcolors.OKBLUE+'block number'+bcolors.ENDC+' / '+bcolors.OKCYAN+'character pos in block'+bcolors.ENDC+' ]')
-    print(bcolors.OKCYAN+'\t0\t1\t2\t3\t4\t5\t6\t7\t8\t9\t10\t11\t12\t13\t14\t15'+bcolors.ENDC)
-    for i in range(math.ceil(len(array) / bsize)):
-        line_abb = bcolors.OKBLUE+str(i)+'\t'+bcolors.ENDC
-        for j in range(bsize):
-            if (hl_start is not None) & (hl_col is not None) & ((i*bsize+j) == hl_start):
-                line_abb += hl_col
-            line_abb += str(array[i*bsize+j])+'\t'
-            if (hl_end is not None) & (hl_col is not None) & ((i*bsize+j) == hl_end):
-                line_abb += bcolors.ENDC
-        print(line_abb)
-
-def print_checksum_generation(block,charpos,array):
-    line_csgen = bcolors.OKBLUE+str(block)+bcolors.ENDC+':'+bcolors.OKCYAN+str(charpos).zfill(2)+bcolors.ENDC+'\t'+bcolors.OKGREEN
-    for i in range(len(array)):
-        line_csgen += str(array[i]).zfill(3)+'\t'
-    print('\r'+line_csgen+bcolors.ENDC, end='')
-
-def print_hash_raw(array, bsize):
-    for i in range(math.ceil(len(array) / 16)):
-        print(''.join(map(lambda x: str(x)+'\t',array[i:i+BLOCK_SIZE])))
-
-# <========================== interface support
-
-print(bcolors.WARNING+'MD4 algorithm python step by step for learning purpose =-'+bcolors.ENDC)
+print('MD4 algorithm python step by step for learning purpose =-')
 
 # <========================== algorithm constants
 BLOCK_SIZE = 64 # or 512 bits but remember last one should do 448 bits (56 chars)
@@ -67,7 +30,6 @@ if index < 56:
 else:
     msg = msg + PADDING[0:(120-index)]
 # =========================== STEP 2 - append message length in bits !
-print((msglen*8).to_bytes(8, 'little'))
 msg = msg+list((msglen*8).to_bytes(8, 'little'))
 # =========================== STEP 3 - init words
 word_A = 0x67452301
